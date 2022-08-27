@@ -4,7 +4,7 @@
 
             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                 <div class="float-right p-4">
-                    <a class="px-4 py-2 bg-green-700 hover:bg-green-500 rounded-md" href="">Create</a>
+                    <a href="{{ route('admin.roles.create') }}" class="px-4 py-2 bg-green-700 hover:bg-green-500 rounded-md" href="">Create</a>
                 </div>
                 <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                     <table class="min-w-full leading-normal">
