@@ -33,30 +33,18 @@
                                     </div>
                                 </td>
                                 <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <a href=""> <span class="text-blue-700 underline">Edit</span></a>
-                                    <a href=""> <span class="text-blue-700 underline">Delete</span></a>
+                                    <a href="{{ route('admin.roles.edit',$role->id) }}"> <span class="text-blue-700 underline">Edit</span></a>
+                                    <form class="text-blue-700 " method="POST" action="{{ route('admin.roles.destroy',$role->id) }}" onsubmit="return confirm('Are you sure?');" >
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="underline" type="submit">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div
-                        class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                        <span class="text-xs xs:text-sm text-gray-900">
-                            Showing 1 to 4 of 50 Entries
-                        </span>
-                        <div class="inline-flex mt-2 xs:mt-0">
-                            <button
-                                class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                                Prev
-                            </button>
-                            &nbsp; &nbsp;
-                            <button
-                                class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                                Next
-                            </button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
 

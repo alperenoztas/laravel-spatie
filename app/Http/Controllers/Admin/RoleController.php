@@ -5,11 +5,12 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Database\Seeders\RoleSeeder;
 
 class RoleController extends Controller
 {
     public function index(){
-        $roles = Role::all();
+        $roles = Role::whereNotIn('name',['admin'])->get();
         return view('admin.roles.index',compact('roles'));
     }
 
@@ -25,6 +26,25 @@ class RoleController extends Controller
         Role::create($validated);
 
 
-        return to_route('admin.roles.index');
+        return to_route('admin.roles.index')->with('message','Role Created Succesfully');
+    }
+
+    public function edit(Role $role){
+
+        return view('admin.roles.edit',compact('role'));
+    }
+
+    public function update(Request $request,Role $role){
+        $validated = $request->validate([
+            'name' => 'required|min:3'
+        ]);
+
+        $role->update($validated);
+        return to_route('admin.roles.index')->with('message','Role Updated Succesfully');
+    }
+
+    public function destroy(Role $role){
+        $role->delete();
+        return to_route('admin.roles.index')->with('message','Role Deleted Succesfully');
     }
 }
