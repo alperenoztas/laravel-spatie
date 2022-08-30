@@ -31,6 +31,8 @@ Route::middleware(['auth','role:admin'])->name('admin.')->prefix('admin')->group
     Route::delete('/roles/{role}/permissions/{permission}',[RoleController::class,'revokePermission'])->name('roles.permissions.revoke');
 
     Route::resource('/permissions',PermissionController::class);
+    Route::delete('/permissions/{permission}/roles,{role}',[PermissionController::class,'removeRole'])->name('permissions.roles.remove');
+
 });
 
 require __DIR__.'/auth.php';
