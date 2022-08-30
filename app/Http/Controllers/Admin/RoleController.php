@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Database\Seeders\RoleSeeder;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
-use Database\Seeders\RoleSeeder;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -31,7 +32,8 @@ class RoleController extends Controller
 
     public function edit(Role $role){
 
-        return view('admin.roles.edit',compact('role'));
+        $permissions = Permission::all();
+        return view('admin.roles.edit',compact('role','permissions'));
     }
 
     public function update(Request $request,Role $role){
@@ -46,5 +48,22 @@ class RoleController extends Controller
     public function destroy(Role $role){
         $role->delete();
         return to_route('admin.roles.index')->with('message','Role Deleted Succesfully');
+    }
+
+    public function givePermission(Request $request, Role $role){
+
+        if($role->hasPermissionTo($request->permission)){
+            return back()->with('message','Permission Already Assigned');
+        }
+        $role->givePermissionTo($request->permission);
+        return back()->with('message','Permission Assigned');
+    }
+
+    public function revokePermission(Role $role,Permission $permission){
+        if($role->hasPermissionTo($permission)){
+            $role->revokePermissionTo($permission);
+            return back()->with('message','Permission Revoked');
+        }
+        return back()->with('message','Permission Not Assigned');
     }
 }
